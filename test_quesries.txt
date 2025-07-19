@@ -1,0 +1,53 @@
+✅ Product Discovery
+What is Aprobo Format Click 55?
+
+Do you have any vinyl flooring with oak texture?
+
+What’s the difference between Format Click 30 and Format Click 55?
+
+Is there a product suitable for underfloor heating?
+
+Do you offer any sound-dampening floors?
+
+✅ Category Inference
+Show me all products in the Format Click category.
+
+Which products belong to the vinyl collection?
+
+Which Aprobo product has high durability for commercial use?
+
+✅ Feature-Based Queries
+Which flooring is best for bathrooms?
+
+Do you have flooring with micro bevel edges?
+
+Are there products with wood grain embossing?
+
+✅ Comparison Style
+Compare Aprobo Nordic Eik and Aprobo Stone Grey.
+
+Which is better: Format Plank or Format Tile for homes?
+
+✅ Multilingual Coverage Check
+Tell me about Eik Hvit. (Norwegian)
+
+What is Træstruktur vinyl? (Danish)
+
+Vad är Format Click 30? (Swedish)
+
+✅ Nonsense / Boundary Cases
+Do you sell space-proof flooring?
+
+What’s the price of Aprobo Unicorn Edition?
+
+
+
+
+
+i have a room that i want to create floor for and this room is for my man cave so, it basically has my work setup, my racing simulator and a gym. what kind of flooring would you suggest?
+
+Based on your description of a multi-purpose room including a workspace, racing simulator, and gym area, durability, sound reduction, and potentially comfort are important factors.  While the provided text doesn't directly recommend specific Aprobo products for this use case, it highlights the challenges of balancing step sound and drum sound, especially with parquet.  It also mentions that glued parquet has better drum sound but worse step sound than floating parquet.  And, if the floor needs to be connected to water, teak is the recommended wood.
+
+Since your description doesn't mention water requirements, and given the varied activities in the room, a durable and potentially sound-dampening underlayment combined with a suitable wear-resistant flooring surface would likely be the best approach.  Unfortunately, without more specific product information from Aprobo's catalog, I can't link to specific products.  
+
+To give you the best recommendation, I need more information from Aprobo's product database.  Could you please provide more details about Aprobo's available flooring options, including materials (like rubber, plastic, linoleum, etc.), thicknesses, underlayment options, and any specific acoustic performance data?

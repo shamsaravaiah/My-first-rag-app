@@ -1,0 +1,22 @@
+# Google Gemini API
+google-generativeai
+langchain
+langchain-google-genai
+langchain-community
+
+# Scraping
+beautifulsoup4
+requests
+
+# Embedding & Vector Stores
+faiss-cpu
+chromadb
+
+# Backend API
+fastapi
+uvicorn
+
+# Utils
+python-dotenv
+pydantic
+aiohttp
