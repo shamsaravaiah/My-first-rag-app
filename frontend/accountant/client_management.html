@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Client Management</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .client-row {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .client-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .client-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .delete-btn {
+      padding: 8px 14px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      width: 300px;
+    }
+
+    .modal-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .modal-buttons button {
+      padding: 8px 12px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .confirm-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+    }
+
+    .cancel-btn {
+      background-color: #ccc;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Client Management</h1>
+
+  <div class="client-row">
+    <!-- Repeat this for 10 clients -->
+    <div class="client-box">
+      <span class="client-name">Client 1</span>
+      <button class="delete-btn" onclick="openModal('Client 1')">Delete</button>
+    </div>
+    <div class="client-box">
+      <span class="client-name">Client 2</span>
+      <button class="delete-btn" onclick="openModal('Client 2')">Delete</button>
+    </div>
+    <div class="client-box">
+      <span class="client-name">Client 3</span>
+      <button class="delete-btn" onclick="openModal('Client 3')">Delete</button>
+    </div>
+    <!-- ... repeat up to Client 10 -->
+  </div>
+
+  <!-- Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <p>Are you sure you want to delete <strong id="clientToDelete"></strong>?</p>
+      <div class="modal-buttons">
+        <button class="confirm-btn" onclick="confirmDelete()">Yes, Delete</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedClient = "";
+
+    function openModal(clientName) {
+      selectedClient = clientName;
+      document.getElementById("clientToDelete").innerText = clientName;
+      document.getElementById("deleteModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("deleteModal").style.display = "none";
+    }
+
+    function confirmDelete() {
+      // Just navigate to the deleted confirmation page for now
+      window.location.href = "user_deleted.html";
+    }
+  </script>
+
+</body>
+</html>

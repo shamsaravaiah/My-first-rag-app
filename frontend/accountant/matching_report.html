@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matched Results</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      background-color: #fafafa;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+
+    th, td {
+      padding: 14px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .true-match {
+      color: green;
+      font-size: 20px;
+    }
+
+    .false-match {
+      color: red;
+      font-size: 20px;
+    }
+
+    .generate-btn {
+      padding: 6px 12px;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .generate-btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Matched Results</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Transaction Record</th>
+        <th>Bank Statement</th>
+        <th>Matched</th>
+        <th>Generate SIE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>invoice_rent.pdf</td>
+        <td>bank_statement_july.xlsx</td>
+        <td class="true-match">✔️</td>
+        <td><a href="sie_generated.html" class="generate-btn">Generate SIE</a></td>
+      </tr>
+      <tr>
+        <td>taxi.jpg</td>
+        <td>statement_march.xlsx</td>
+        <td class="false-match">❌</td>
+        <td><button class="generate-btn" disabled>Generate SIE</button></td>
+      </tr>
+      <tr>
+        <td>freelance_invoice.png</td>
+        <td>bank_statement_july.xlsx</td>
+        <td class="true-match">✔️</td>
+        <td><a href="sie_generated.html" class="generate-btn">Generate SIE</a></td>
+      </tr>
+      <tr>
+        <td>meal.png</td>
+        <td>bank_statement_july.xlsx</td>
+        <td class="false-match">❌</td>
+        <td><button class="generate-btn" disabled>Generate SIE</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
