@@ -1,55 +1,21 @@
-# 📁 app/chains/qa_chain.py
+# 📁 app/chains/qa_chains.py
 
 import os
 from dotenv import load_dotenv
 from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import FAISS
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import Runnable
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
 
-# Load Gemini API key
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GEMINI_KEY")
 
-# Embedding model
 embedding = GoogleGenerativeAIEmbeddings(
     model="models/embedding-001",
     google_api_key=GOOGLE_API_KEY
 )
-
-# Load FAISS vector store
-vectorstore = FAISS.load_local(
-    "data/vector_store/aprobo_en",
-    embeddings=embedding,
-    allow_dangerous_deserialization=True
-)
-
-retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
-
-# Optional: Customize prompt to match your assistant’s voice
-CUSTOM_PROMPT = PromptTemplate.from_template("""
-You are Aprobo's intelligent product assistant, designed to help customers—whether beginners or professionals—find the ideal flooring solution from Aprobo's catalog.
-
-Use the context provided (retrieved from our product database and website) to:
-- Understand the customer's needs, even if they are vague, confused, or unfamiliar with flooring terms.
-- Ask clarifying follow-up questions **only if absolutely necessary**.
-- Recommend the most suitable product(s) from Aprobo’s catalog based on their needs.
-- Explain your recommendations clearly, highlighting key product features, differences, and benefits in simple terms.
-- Link directly to the recommended product(s) on https://aprobo.com/en/produkter/.
-- Avoid guessing or making up information. Base your answers only on the provided context.
-
-Context:
-{context}
-
-Customer Question:
-{question}
-
-Response:
-""")
-
-# LLM (Gemini)
-from langchain_google_genai import ChatGoogleGenerativeAI
 
 llm = ChatGoogleGenerativeAI(
     model="gemini-1.5-pro",
@@ -57,35 +23,56 @@ llm = ChatGoogleGenerativeAI(
     temperature=0.3
 )
 
-# Create RAG chain
-qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    retriever=retriever,
-    chain_type="stuff",
-    chain_type_kwargs={"prompt": CUSTOM_PROMPT}
-)
+# Shared prompt template (can customize per company)
+def get_prompt(company_name):
+    return PromptTemplate.from_template(f"""
+You are {company_name}'s intelligent assistant.
 
-# Expose it as a function
-def answer_question(query: str) -> str:
-    result = qa_chain.invoke({"query": query})
-    return result["result"]
+Use the context to help users with product or service questions. Be honest. Do not make up facts.
 
+Context:
+{{context}}
 
+Customer Question:
+{{question}}
 
+Response:
+""")
 
-#Loadenv – Load Gemini API key
+# Load vectorstore + chain with memory and limit tracking
+def load_company_chain(company_id: str):
+    vector_path = f"data/vector_store/{company_id}"
+    vs = FAISS.load_local(vector_path, embeddings=embedding, allow_dangerous_deserialization=True)
+    retriever = vs.as_retriever(search_kwargs={"k": 5})
 
-#Embedder – Set up embedding model
+    prompt = get_prompt(company_id.capitalize())  # this expects 'context' and 'question'
 
-#Vectorstore – Load FAISS index
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-#Retriever – Enable vector search
+    chain = ConversationalRetrievalChain.from_llm(
+        llm=llm,
+        retriever=retriever,
+        memory=memory,
+        return_source_documents=False,
+        combine_docs_chain_kwargs={"prompt": prompt}  # ✅ correct place to inject your prompt
+    )
 
-#Prompt – Customize assistant behavior
+    return {"chain": chain, "memory": memory, "question_count": 0}
 
-#LLM – Set up Gemini Pro
+# Dict to track sessions per company
+company_chains = {
+    "aprobo": load_company_chain("aprobo_en"),
+    "stim": load_company_chain("stim"),
+    "youngstival": load_company_chain("youngstival"),
+}
 
-#Chain – Create RetrievalQA pipeline
+# Main function with limit enforcement
+def answer_company_question(company: str, question: str) -> str:
+    session = company_chains[company]
+    session["question_count"] += 1
 
-#Function – Wrap it as answer_question()
+    if session["question_count"] > 5:
+        return "You've reached the free limit. Want more? Contact us."
 
+    result = session["chain"].invoke({"question": question})
+    return result["answer"] if "answer" in result else result["result"]
