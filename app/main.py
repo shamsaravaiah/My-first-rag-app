@@ -1,14 +1,14 @@
-from fastapi import FastAPI, Request
+# 📁 main.py
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from app.chains.qa_chains import answer_question  # ✅ This works now after your fix
+from app.chains.qa_chains import answer_company_question
 
 app = FastAPI()
 
-# ✅ Allow frontend to talk to backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],     # For dev — lock to domain in prod
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -16,7 +16,17 @@ app.add_middleware(
 class Query(BaseModel):
     question: str
 
-@app.post("/ask/")
-async def ask(query: Query):
-    answer = answer_question(query.question)
+@app.post("/ask/aprobo/")
+async def ask_aprobo(query: Query):
+    answer = answer_company_question("aprobo", query.question)
+    return {"answer": answer}
+
+@app.post("/ask/stim/")
+async def ask_company_b(query: Query):
+    answer = answer_company_question("stim", query.question)
+    return {"answer": answer}
+
+@app.post("/ask/youngstival/")
+async def ask_company_c(query: Query):
+    answer = answer_company_question("youngstival", query.question)
     return {"answer": answer}
